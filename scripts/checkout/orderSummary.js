@@ -8,12 +8,7 @@ import {
   deliveryOptions,
   getDeliveryOption,
 } from "../../data/deliveryOptions.js";
-
-hello();
-
-const today = dayjs();
-const deliveryDate = today.add(7, "days");
-console.log(deliveryDate.format("dddd, MMMM D"));
+import { renderPaymantSummary } from "./paymentSummary.js";
 
 export function renderOrderSummary() {
   let cartSummaryHTML = "";
@@ -47,7 +42,7 @@ export function renderOrderSummary() {
             ${matchingProduct.name}
           </div>
           <div class="product-price">$${formatCurrency(
-            matchingProduct.priceCents
+            matchingProduct.priceCents,
           )}</div>
           <div class="product-quantity">
             <span> Quantity: <span class="quantity-label">${
@@ -124,9 +119,10 @@ export function renderOrderSummary() {
       removeFromCart(productId);
 
       const container = document.querySelector(
-        `.js-cart-item-container-${productId}`
+        `.js-cart-item-container-${productId}`,
       );
       container.remove();
+      renderPaymantSummary();
     });
   });
 
@@ -135,6 +131,7 @@ export function renderOrderSummary() {
       const { productId, deliveryOptionId } = element.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
       renderOrderSummary();
+      renderPaymantSummary();
     });
   });
 }
