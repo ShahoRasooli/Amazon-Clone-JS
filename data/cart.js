@@ -1,4 +1,3 @@
-//cart.js
 export let cart;
 
 loadFromStorage();
